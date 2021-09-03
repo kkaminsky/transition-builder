@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.31.98:5432/project_manager
+    username: ingins
+    password: secret
+  liquibase:
+    default-schema: public
+    change-log: "classpath:/db/changelog/changelog-master.yml"
+    parameters:
+      schema: transition_builder
+      catalog: transition_builder
+    liquibase-schema: transition_builder
+  application:
+    name: transition_builder
+  jpa:
+    properties:
+      hibernate:
+        default_schema: transition_builder
+        order_inserts: true
+        order_updates: true
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+        generate_statistics: true
+        jdbc:
+          batch_size: 100
+          fetch_size: 100
+          batch_versioned_data: true
+    open-in-view: false
+    generate-ddl: false
+logging:
+  level:
+    org.hibernate.stat: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.SQL: DEBUG

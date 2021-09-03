@@ -1,0 +1,103 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-schema
+      author: kkaminsky
+      changes:
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS ${schema};
+  - changeSet:
+      id: create-table-state
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: state
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: state_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  name: text
+                  type: VARCHAR
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)
+  - changeSet:
+      id: create-table-event
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: event
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: event_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  name: text
+                  type: VARCHAR
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)
+  - changeSet:
+      id: create-table-transition
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: transition
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: transition_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: from_state_fkey
+                    references: ${schema}.state(id)
+                    deleteCascade: true
+                  name: from_state
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: to_state_fkey
+                    references: ${schema}.state(id)
+                    deleteCascade: true
+                  name: to_state
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: event_fkey
+                    references: ${schema}.event(id)
+                    deleteCascade: true
+                  name: event
+                  type: UUID
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)

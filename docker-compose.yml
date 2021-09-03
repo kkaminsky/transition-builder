@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_DB: transition_builder
+      POSTGRES_USER: ingins
+      POSTGRES_PASSWORD: secret
+    expose:
+      - 5432
+    network_mode: "host"
